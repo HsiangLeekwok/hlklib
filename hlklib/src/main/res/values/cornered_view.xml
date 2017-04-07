@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CorneredView">
+        <attr name="cv_active_border" format="color" />
+        <attr name="cv_normal_border" format="color" />
+        <attr name="cv_disabled_border" format="color" />
+        <attr name="cv_corner_size" format="dimension" />
+        <attr name="cv_left_top_corner" format="dimension" />
+        <attr name="cv_left_bottom_corner" format="dimension" />
+        <attr name="cv_right_top_corner" format="dimension" />
+        <attr name="cv_right_bottom_corner" format="dimension" />
+        <attr name="cv_background" format="color" />
+        <attr name="cv_background_active" format="color" />
+        <attr name="cv_background_type">
+            <enum name="fill" value="0" />
+            <enum name="border" value="1" />
+        </attr>
+        <attr name="cv_border_size" format="dimension" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="MetaballView">
+        <!--图形绘画模式-->
+        <attr name="paintMode">
+            <enum name="stroke" value="0" />
+            <enum name="fill" value="1" />
+        </attr>
+        <!--图形的前景色-->
+        <attr name="drawColor" format="color" />
+        <!--球的半径-->
+        <attr name="ballRadius" format="float" />
+        <!--球之间的距离-->
+        <attr name="ballDivider" format="integer" />
+        <!--球的个数-->
+        <attr name="balls" format="integer" />
+        <!--动画时间间隔-->
+        <attr name="animDuration" format="integer" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="hlklib_chat_balloon_active_color">#dbdcdc</color>
+    <dimen name="hlklib_chat_balloon_corner_size">10dp</dimen>
+    <dimen name="hlklib_chat_balloon_arrow_width">10dp</dimen>
+    <dimen name="hlklib_chat_balloon_arrow_height">15dp</dimen>
+    <dimen name="hlklib_chat_balloon_arrow_margin">15dp</dimen>
+    <dimen name="hlklib_chat_balloon_border_size">1dp</dimen>
+
+    <declare-styleable name="ChatBalloon">
+        <!--边角-->
+        <attr name="cb_corner_size" format="dimension|reference" />
+        <!--左上角边角-->
+        <attr name="cb_corner_size_left_top" format="dimension|reference" />
+        <!--左下角边角-->
+        <attr name="cb_corner_size_left_bottom" format="dimension|reference" />
+        <!--右上角边角-->
+        <attr name="cb_corner_size_right_top" format="dimension|reference" />
+        <!--右下角边角-->
+        <attr name="cb_corner_size_right_bottom" format="dimension|reference" />
+        <!--箭头宽度-->
+        <attr name="cb_arrow_width" format="dimension|reference" />
+        <!--箭头高度-->
+        <attr name="cb_arrow_height" format="dimension|reference" />
+        <!--箭头位置-->
+        <attr name="cb_arrow_side">
+            <enum name="none" value="0" />
+            <enum name="topLeft" value="1" />
+            <enum name="topCenter" value="2" />
+            <enum name="topRight" value="3" />
+            <enum name="rightTop" value="4" />
+            <enum name="rightMiddle" value="5" />
+            <enum name="rightBottom" value="6" />
+            <enum name="bottomRight" value="7" />
+            <enum name="bottomCenter" value="8" />
+            <enum name="bottomLeft" value="9" />
+            <enum name="leftBottom" value="10" />
+            <enum name="leftMiddle" value="11" />
+            <enum name="leftTop" value="12" />
+        </attr>
+        <!--箭头离UI的边的距离（最近的边）-->
+        <attr name="cb_arrow_margin" format="dimension|reference" />
+        <!--边框粗细-->
+        <attr name="cb_border_size" format="dimension|reference" />
+        <!--边框颜色-->
+        <attr name="cb_border_active" format="color|reference" />
+        <!--活动时边框颜色-->
+        <attr name="cb_border_normal" format="color|reference" />
+        <!--背景颜色-->
+        <attr name="cb_background_normal" format="color|reference" />
+        <!--活动时的背景颜色-->
+        <attr name="cb_background_active" format="color|reference" />
+    </declare-styleable>
+</resources>

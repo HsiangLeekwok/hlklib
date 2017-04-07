@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomWaterDrop">
+        <attr name="cwd_radius" format="dimension" />
+        <attr name="cwd_color" format="color" />
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="hlklib_bezier_curve_background_start">#3fc7e1</color>
+    <color name="hlklib_bezier_curve_background_center">#73d7cf</color>
+    <color name="hlklib_bezier_curve_background_end">#a6e7bd</color>
+
+    <declare-styleable name="CustomBezierCurveView">
+        <!--贝塞尔曲线曲度在view中所占用的高度-->
+        <attr name="cdv_bezier_curve_size" format="dimension|reference" />
+        <attr name="cdv_bezier_curve_side">
+            <enum name="none" value="0" />
+            <enum name="left" value="1" />
+            <enum name="top" value="2" />
+            <enum name="right" value="3" />
+            <enum name="bottom" value="4" />
+        </attr>
+    </declare-styleable>
+</resources>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="hlklib_ribbon_flag_default_size">100dp</dimen>
+    <dimen name="hlklib_ribbon_flag_default_text_size">10sp</dimen>
+    <string name="hlklib_ribbon_flag_default_text">flag</string>
+
+    <color name="hlklib_ribbon_flag_flag_background">#fe8802</color>
+
+
+    <declare-styleable name="RibbonFlagView">
+        <!--标签的位置-->
+        <attr name="ri_flag_position">
+            <enum name="none" value="0" />
+            <enum name="topLeft" value="1" />
+            <enum name="topRight" value="2" />
+            <enum name="bottomRight" value="3" />
+            <enum name="bottomLeft" value="4" />
+        </attr>
+        <!--内容UI布局-->
+        <attr name="ri_flag_content" format="reference" />
+        <!--标签文字-->
+        <attr name="ri_flag_text" format="string" />
+        <!--标签的文字大小-->
+        <attr name="ri_flag_text_size" format="dimension" />
+        <!--标签文字颜色-->
+        <attr name="ri_flag_text_color" format="color" />
+        <!--标签的背景-->
+        <attr name="ri_flag_backgrond" format="color" />
+    </declare-styleable>
+
+</resources>

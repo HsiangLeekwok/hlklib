@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomTextView">
+        <!--字体来源-->
+        <attr name="ctv_source">
+            <enum name="system" value="-1" />
+            <enum name="font_awesome" value="0" />
+            <enum name="icon_moon" value="1" />
+            <enum name="icon_font" value="2" />
+            <enum name="material_icon" value="3" />
+            <enum name="new_icon_font" value="4" />
+        </attr>
+        <!--是否根据内容自动计算宽高-->
+        <attr name="ctv_auto_resize" format="boolean" />
+        <!--圆形背景色-->
+        <attr name="ctv_oval_background_color" format="color" />
+    </declare-styleable>
+
+</resources>

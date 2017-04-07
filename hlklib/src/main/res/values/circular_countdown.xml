@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircularCountdown">
+        <!--半径-->
+        <attr name="cc_radius" format="dimension" />
+        <attr name="cc_handlerRadius" format="dimension" />
+        <attr name="cc_duration" format="integer" />
+        <attr name="cc_background" format="color" />
+        <attr name="cc_foreground" format="color" />
+        <attr name="cc_handlerColor" format="color" />
+        <attr name="cc_borderWidth" format="dimension" />
+        <attr name="cc_textColor" format="color" />
+        <attr name="cc_textSize" format="dimension" />
+        <attr name="cc_countdown">
+            <enum name="reset" value="0" />
+            <enum name="keepOn" value="1" />
+        </attr>
+        <attr name="cc_display">
+            <enum name="both" value="0" />
+            <enum name="onlyText" value="1" />
+            <enum name="onlyHandler" value="2" />
+        </attr>
+        <attr name="cc_autoStart" format="boolean" />
+        <attr name="cc_maximumCycleTimes" format="integer" />
+    </declare-styleable>
+</resources>

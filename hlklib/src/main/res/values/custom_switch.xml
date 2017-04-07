@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--颜色-->
+    <color name="hlklib_custom_switch_selected_color">#33bfce</color>
+    <color name="hlklib_custom_switch_unselected_color">#ededed</color>
+    <color name="hlklib_custom_switch_selected_text_color">@android:color/white</color>
+    <color name="hlklib_custom_switch_unselected_text_color">#d9d9d9</color>
+    <!--dimension定义-->
+    <dimen name="hlklib_custom_switch_button_min_width">50dp</dimen>
+    <dimen name="hlklib_custom_switch_padding">1dp</dimen>
+    <dimen name="hlklib_custom_switch_corner_size">5dp</dimen>
+    <dimen name="hlklib_custom_switch_corner_size_inner">15dp</dimen>
+    <dimen name="hlklib_custom_switch_corner_size_outer">16dp</dimen>
+    <dimen name="hlklib_custom_switch_text_top_bottom_padding">5dp</dimen>
+    <!--默认文字-->
+    <string name="hlklib_custom_switch_left_text">开</string>
+    <string name="hlklib_custom_switch_right_text">关</string>
+
+    <declare-styleable name="CustomSwitch">
+        <!--选择模式: 2项选择或3项选择-->
+        <attr name="switch_mode">
+            <enum name="two" value="0" />
+            <enum name="three" value="1" />
+        </attr>
+        <!--开启时的文字-->
+        <attr name="switch_on_text" format="string" />
+        <!--关闭时的文字-->
+        <attr name="switch_off_text" format="string" />
+        <!--中间的文字-->
+        <attr name="switch_center_text" format="string" />
+        <!--整个开关的背景-->
+        <attr name="switch_background" format="color" />
+        <!--开启时的背景-->
+        <attr name="switch_active_background" format="color" />
+        <!--关闭时的背景-->
+        <attr name="switch_static_background" format="color" />
+        <attr name="switch_font_size" format="dimension" />
+        <attr name="switch_on_text_color" format="color" />
+        <attr name="switch_off_text_color" format="color" />
+    </declare-styleable>
+
+</resources>

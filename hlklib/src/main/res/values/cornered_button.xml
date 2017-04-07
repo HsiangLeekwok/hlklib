@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CorneredButton">
+        <attr name="active_color" format="color" />
+        <attr name="normal_color" format="color" />
+        <attr name="disabled_color" format="color" />
+        <attr name="corner_size" format="dimension" />
+        <attr name="left_top_corner_size" format="dimension" />
+        <attr name="left_bottom_corner_size" format="dimension" />
+        <attr name="right_top_corner_size" format="dimension" />
+        <attr name="right_bottom_corner_size" format="dimension" />
+        <!--在点击的时候自动disable，过3s后再enable，默认为true-->
+        <attr name="disable_when_click" format="boolean" />
+        <attr name="font_type">
+            <enum name="normal" value="0" />
+            <enum name="iconfont" value="1" />
+        </attr>
+        <attr name="background_type">
+            <enum name="fill" value="0" />
+            <enum name="border" value="1" />
+        </attr>
+        <!--背景颜色-->
+        <attr name="bg_color" format="color" />
+        <!--边角类型-->
+        <attr name="corner_type">
+            <!--普通自定义边角-->
+            <enum name="normal" value="0" />
+            <!--圆形边角-->
+            <enum name="oval" value="1" />
+        </attr>
+    </declare-styleable>
+
+</resources>

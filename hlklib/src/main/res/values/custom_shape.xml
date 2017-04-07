@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomShape">
+        <!--图像整体距离边界的距离-->
+        <attr name="padding_size" format="dimension" />
+        <!--边角数量，大于或等于3，默认为正5变形-->
+        <attr name="corners" format="integer" />
+        <!--外围边框颜色-->
+        <attr name="outer_border_color" format="color" />
+        <!--外围边框粗细-->
+        <attr name="outer_border_width" format="dimension" />
+        <!--背景颜色-->
+        <attr name="background_color" format="color" />
+        <!--是否显示引导线-->
+        <attr name="show_guideline" format="boolean" />
+        <!--引导线颜色-->
+        <attr name="guideline_color" format="color" />
+        <!--引导线粗细-->
+        <attr name="guideline_width" format="dimension" />
+        <!--前景色块颜色，必须定义成边角数量个数的数组-->
+        <attr name="foreground_colors" format="reference" />
+        <!--要显示的值列表，必须定义成边教书两个数的数组-->
+        <attr name="foreground_values" format="reference" />
+    </declare-styleable>
+
+</resources>

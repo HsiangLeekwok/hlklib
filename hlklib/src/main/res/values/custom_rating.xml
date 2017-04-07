@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomRating">
+        <!--按钮数量-->
+        <attr name="buttons" format="integer" />
+        <!--Title提示-->
+        <attr name="ratingTitle" format="string" />
+        <!--Title的文字颜色-->
+        <attr name="textColor" format="color|reference" />
+        <!--按钮常规背景色-->
+        <attr name="buttonBackgroundNormal" format="color|reference" />
+        <!--按钮选中的背景色-->
+        <attr name="buttonBackgroundActive" format="color|reference" />
+        <!--被选中的按钮-->
+        <attr name="selectedButton" format="integer" />
+        <!--按钮的文字-->
+        <attr name="buttonTitles" format="reference" />
+        <attr name="cr_textSize" format="dimension" />
+    </declare-styleable>
+
+    <item name="hlklib_ids_custom_rating_bar_tag_index" type="id" />
+    <item name="hlklib_ids_custom_rating_bar_tag_rate_type" type="id" />
+
+    <string name="hlklib_custom_rating_bar_title">打分</string>
+
+    <dimen name="hlklib_custom_rating_bar_corner_size">5dp</dimen>
+
+    <color name="hlklib_custom_rating_bar_active_color">#f1bd59</color>
+    <color name="hlklib_custom_rating_bar_active_border">#bfbfbf</color>
+</resources>

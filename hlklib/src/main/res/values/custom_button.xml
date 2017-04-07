@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CustomButton">
+        <!--角所在边：左边或右边-->
+        <attr name="corner_side">
+            <enum name="none" value="0" />
+            <enum name="left" value="-1" />
+            <enum name="right" value="1" />
+            <enum name="leftright" value="2" />
+            <enum name="bottom" value="3" />
+            <enum name="top" value="4" />
+        </attr>
+        <!--左侧角-->
+        <attr name="left_corner">
+            <!--凸角-->
+            <enum name="convex" value="1" />
+            <!--凹角-->
+            <enum name="concave" value="-1" />
+            <!--无-->
+            <enum name="none" value="0" />
+        </attr>
+        <!--右侧角-->
+        <attr name="right_corner">
+            <!--凸角-->
+            <enum name="convex" value="1" />
+            <!--凹角-->
+            <enum name="concave" value="-1" />
+            <!--无-->
+            <enum name="none" value="0" />
+        </attr>
+        <attr name="bottom_corner">
+            <!--凸角-->
+            <enum name="convex" value="1" />
+            <!--凹角-->
+            <enum name="concave" value="-1" />
+            <!--无-->
+            <enum name="none" value="0" />
+        </attr>
+        <attr name="top_corner">
+            <!--凸角-->
+            <enum name="convex" value="1" />
+            <!--凹角-->
+            <enum name="concave" value="-1" />
+            <!--无-->
+            <enum name="none" value="0" />
+        </attr>
+        <!--角的宽度-->
+        <attr name="corner_width" format="dimension" />
+        <!--背景颜色-->
+        <attr name="static_color" format="color" />
+        <!--活动时的背景色-->
+        <attr name="positive_color" format="color" />
+        <!--禁用时的背景色-->
+        <attr name="disable_color" format="color" />
+    </declare-styleable>
+
+</resources>
