@@ -37,6 +37,12 @@ def getRepositoryPassword() {
     return hasProperty('NEXUS_PASSWORD') ? NEXUS_PASSWORD : ""
 }
 
+static def getInternalVersion() {
+    def formatted = new Date().format("yyyyMMddHHmm");
+    def subed = formatted.take(11);
+    return "${subed}0";
+}
+
 afterEvaluate { project ->
     uploadArchives {
         repositories {
@@ -45,7 +51,7 @@ afterEvaluate { project ->
 
                 pom.groupId = GROUP
                 pom.artifactId = POM_ARTIFACT_ID
-                pom.version = VERSION_NAME
+                pom.version = "${VERSION_NAME}.${getInternalVersion()}"
 
                 repository(url: getReleaseRepositoryUrl()) {
                     authentication(userName: getRepositoryUsername(), password: getRepositoryPassword())

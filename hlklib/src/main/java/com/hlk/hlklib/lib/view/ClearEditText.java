@@ -42,7 +42,7 @@ public class ClearEditText extends RelativeLayout {
     }
 
     private int normalBorder, activeBorder, editPadding, editCorner, editType, editMaxLen;
-    private String editHint, editValue, editExtractRegex, iconEye, iconClear;
+    private String editHint, editValue, editExtractRegex, editVerifyRegex, iconEye, iconClear;
 
     private void initialize(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ClearEditText, defStyleAttr, 0);
@@ -55,6 +55,7 @@ public class ClearEditText extends RelativeLayout {
             editHint = array.getString(R.styleable.ClearEditText_cet_edit_hint);
             editValue = array.getString(R.styleable.ClearEditText_cet_edit_text);
             editExtractRegex = array.getString(R.styleable.ClearEditText_cet_edit_value_extract_regex);
+            editVerifyRegex = array.getString(R.styleable.ClearEditText_cet_edit_value_verify_regex);
             iconEye = array.getString(R.styleable.ClearEditText_cet_edit_icon_eye);
             iconClear = array.getString(R.styleable.ClearEditText_cet_edit_icon_clear);
             editMaxLen = array.getInteger(R.styleable.ClearEditText_cet_edit_value_max_length, 0);
@@ -70,11 +71,13 @@ public class ClearEditText extends RelativeLayout {
 
     private void initializeView() {
         View view = inflate(getContext(), R.layout.hlklib_clear_edit_text, this);
+
         editTextView = (CorneredEditText) view.findViewById(R.id.hlklib_clear_edit_text_text);
         eyeIcon = (CustomTextView) view.findViewById(R.id.hlklib_clear_edit_text_eye);
         clearIcon = (CustomTextView) view.findViewById(R.id.hlklib_clear_edit_text_clear);
         eyeIcon.setOnClickListener(clickListener);
         clearIcon.setOnClickListener(clickListener);
+
         editTextView.addTextChangedListener(defaultTextWatcher);
         editTextView.setOnFocusChangeListener(onFocusChangeListener);
         editTextView.setPadding(editPadding, editPadding, editPadding, editPadding);
@@ -88,6 +91,9 @@ public class ClearEditText extends RelativeLayout {
         if (!TextUtils.isEmpty(editExtractRegex)) {
             // 值过滤正则表达式
             editTextView.setValueExtractRegex(editExtractRegex);
+        }
+        if (!TextUtils.isEmpty(editVerifyRegex)) {
+            editTextView.setValueVerifyRegex(editVerifyRegex);
         }
         clearIcon.setText(iconClear);
         eyeIcon.setText(iconEye);
@@ -112,16 +118,6 @@ public class ClearEditText extends RelativeLayout {
             editType = TYPE_VISIBLE_PASSWORD;
             editTextView.setInputType(getInputType());
             editTextView.setSelection(editTextView.getText().length());
-        }
-    }
-
-    /**
-     * 设置文字输入长度限制
-     */
-    public void setMaxLength(int maxLength) {
-        if (editMaxLen != maxLength) {
-            editMaxLen = maxLength;
-            editTextView.setMaxLength(maxLength);
         }
     }
 
@@ -239,6 +235,24 @@ public class ClearEditText extends RelativeLayout {
         int len = visible ? editTextView.getText().toString().length() : 0;
         clearIcon.setVisibility(len > 0 ? VISIBLE : GONE);
         eyeIcon.setVisibility((isInputForPassword() && len > 0) ? VISIBLE : GONE);
+    }
+
+    /**
+     * 获取输入的值
+     */
+    public String getValue() {
+        String value = editTextView.getText().toString();
+        if (TextUtils.isEmpty(editVerifyRegex)) {
+            return value;
+        }
+        return editTextView.verifyValue() ? value : "";
+    }
+
+    /**
+     * 验证输入的值
+     */
+    public boolean verifyValue() {
+        return editTextView.verifyValue();
     }
 
     /**

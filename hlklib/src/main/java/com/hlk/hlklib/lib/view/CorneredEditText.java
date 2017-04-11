@@ -16,7 +16,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 
-import com.hlk.hlklib.R;
 import com.hlk.hlklib.etc.Utility;
 
 import java.util.Locale;
@@ -45,7 +44,7 @@ public class CorneredEditText extends AppCompatEditText {
 
     public CorneredEditText(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CorneredEditText, defStyle, 0);
+        TypedArray a = context.obtainStyledAttributes(attrs, com.hlk.hlklib.R.styleable.CorneredEditText, defStyle, 0);
         getAttributes(a);
         a.recycle();
 
@@ -53,31 +52,31 @@ public class CorneredEditText extends AppCompatEditText {
     }
 
     private void getAttributes(TypedArray array) {
-        act_color = array.getColor(R.styleable.CorneredEditText_cet_active_border, Default.ACT_COLOR);
-        dft_color = array.getColor(R.styleable.CorneredEditText_cet_normal_border, Default.DFT_COLOR);
-        dsb_color = array.getColor(R.styleable.CorneredEditText_cet_disabled_border, Default.DSB_COLOR);
-        bg_color = array.getColor(R.styleable.CorneredEditText_cet_background, Color.WHITE);
-        border_size = array.getDimensionPixelOffset(R.styleable.CorneredEditText_cet_border_size, Default.BORDER);
-        corner = array.getDimensionPixelOffset(R.styleable.CorneredEditText_cet_corner_size, 0);
-        value_verify_regex = array.getString(R.styleable.CorneredEditText_cet_value_verify_regex);
-        value_extract_regex = array.getString(R.styleable.CorneredEditText_cet_value_extract_regex);
-        value_verify_warning = array.getString(R.styleable.CorneredEditText_cet_value_verify_warning);
-        display_counter = array.getBoolean(R.styleable.CorneredEditText_cet_display_counter, false);
-        count_color = array.getColor(R.styleable.CorneredEditText_cet_counter_font_color, Default.CounterColor);
-        count_size = array.getDimensionPixelSize(R.styleable.CorneredEditText_cet_counter_font_size, Default.CounterSize);
-        formatting = array.getString(R.styleable.CorneredEditText_cet_counter_format);
-        focus_end = array.getBoolean(R.styleable.CorneredEditText_cet_auto_focus_end, false);
+        act_color = array.getColor(com.hlk.hlklib.R.styleable.CorneredEditText_cet_active_border, Default.ACT_COLOR);
+        dft_color = array.getColor(com.hlk.hlklib.R.styleable.CorneredEditText_cet_normal_border, Default.DFT_COLOR);
+        dsb_color = array.getColor(com.hlk.hlklib.R.styleable.CorneredEditText_cet_disabled_border, Default.DSB_COLOR);
+        bg_color = array.getColor(com.hlk.hlklib.R.styleable.CorneredEditText_cet_background, Color.WHITE);
+        border_size = array.getDimensionPixelOffset(com.hlk.hlklib.R.styleable.CorneredEditText_cet_border_size, Default.BORDER);
+        corner = array.getDimensionPixelOffset(com.hlk.hlklib.R.styleable.CorneredEditText_cet_corner_size, 0);
+        value_verify_regex = array.getString(com.hlk.hlklib.R.styleable.CorneredEditText_cet_value_verify_regex);
+        value_extract_regex = array.getString(com.hlk.hlklib.R.styleable.CorneredEditText_cet_value_extract_regex);
+        value_verify_warning = array.getString(com.hlk.hlklib.R.styleable.CorneredEditText_cet_value_verify_warning);
+        display_counter = array.getBoolean(com.hlk.hlklib.R.styleable.CorneredEditText_cet_display_counter, false);
+        count_color = array.getColor(com.hlk.hlklib.R.styleable.CorneredEditText_cet_counter_font_color, Default.CounterColor);
+        count_size = array.getDimensionPixelSize(com.hlk.hlklib.R.styleable.CorneredEditText_cet_counter_font_size, Default.CounterSize);
+        formatting = array.getString(com.hlk.hlklib.R.styleable.CorneredEditText_cet_counter_format);
+        focus_end = array.getBoolean(com.hlk.hlklib.R.styleable.CorneredEditText_cet_auto_focus_end, false);
         if (TextUtils.isEmpty(formatting) || formatting.equals("null")) {
             formatting = Default.CounterFormat;
         }
-        max_length = array.getInt(R.styleable.CorneredEditText_cet_max_length, 0);
+        max_length = array.getInt(com.hlk.hlklib.R.styleable.CorneredEditText_cet_max_length, 0);
         if (corner > 0) {
             setCorners();
         } else {
-            lftb = array.getDimensionPixelOffset(R.styleable.CorneredEditText_cet_left_bottom_corner, 0);
-            lftt = array.getDimensionPixelOffset(R.styleable.CorneredEditText_cet_left_top_corner, 0);
-            ritb = array.getDimensionPixelOffset(R.styleable.CorneredEditText_cet_right_bottom_corner, 0);
-            ritt = array.getDimensionPixelOffset(R.styleable.CorneredEditText_cet_right_top_corner, 0);
+            lftb = array.getDimensionPixelOffset(com.hlk.hlklib.R.styleable.CorneredEditText_cet_left_bottom_corner, 0);
+            lftt = array.getDimensionPixelOffset(com.hlk.hlklib.R.styleable.CorneredEditText_cet_left_top_corner, 0);
+            ritb = array.getDimensionPixelOffset(com.hlk.hlklib.R.styleable.CorneredEditText_cet_right_bottom_corner, 0);
+            ritt = array.getDimensionPixelOffset(com.hlk.hlklib.R.styleable.CorneredEditText_cet_right_top_corner, 0);
         }
     }
 
@@ -152,11 +151,6 @@ public class CorneredEditText extends AppCompatEditText {
     }
 
     @Override
-    public void addTextChangedListener(TextWatcher watcher) {
-        __textWatcher = watcher;
-    }
-
-    @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (display_counter) {
@@ -188,6 +182,11 @@ public class CorneredEditText extends AppCompatEditText {
      */
     private TextWatcher __textWatcher;
 
+    @Override
+    public void addTextChangedListener(TextWatcher watcher) {
+        __textWatcher = watcher;
+    }
+
     /**
      * 默认的TextWatcher
      */
@@ -211,6 +210,7 @@ public class CorneredEditText extends AppCompatEditText {
         public void afterTextChanged(Editable s) {
             // 过滤输入内容
             extractValue(s);
+
             if (null != __textWatcher) {
                 __textWatcher.afterTextChanged(s);
             }
@@ -221,29 +221,37 @@ public class CorneredEditText extends AppCompatEditText {
      * 过滤掉正则限制之外的内容
      */
     private void extractValue(Editable s) {
-        String text = getText().toString();
+        String text = s.toString();
         if (!isEmpty(text)) {
             String got = gotExtractedValue(text);
             if (!text.equals(got)) {
-                setText(got);
+                s.replace(0, s.length(), got);
                 // 修改完毕之后自动将光标设置到最后
                 if (focus_end) {
-                    setSelection(got.length());
+                    focusEnd();
                 }
             }
         }
     }
 
     /**
+     * 将光标移到最后
+     */
+    public void focusEnd() {
+        setSelection(getText().length());
+    }
+
+    /**
      * 验证输入是否正确
      */
-    private boolean verify(String string) {
-        if (!isEmpty(value_verify_regex)) {
-            Pattern p = Pattern.compile(value_verify_regex);
-            Matcher m = p.matcher(string);
-            return m.matches();
+    public boolean verifyValue() {
+        if (isEmpty(value_verify_regex)) {
+            throw new IllegalArgumentException("no value verify regex found.");
         }
-        return true;
+        String value = getText().toString();
+        Pattern p = Pattern.compile(value_verify_regex);
+        Matcher m = p.matcher(value);
+        return m.matches();
     }
 
     /**
@@ -297,6 +305,13 @@ public class CorneredEditText extends AppCompatEditText {
     public void setValueExtractRegex(String regex) {
         value_extract_regex = regex;
         extractValue(getText());
+    }
+
+    /**
+     * 设置值验证正则
+     */
+    public void setValueVerifyRegex(String regex) {
+        value_verify_regex = regex;
     }
 
     private static class Default {

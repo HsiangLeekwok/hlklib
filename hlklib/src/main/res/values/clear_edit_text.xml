@@ -26,6 +26,8 @@
         <attr name="cet_edit_text" format="string" />
         <!--过滤输入值的正则表达式-->
         <attr name="cet_edit_value_extract_regex" format="string" />
+        <!--验证输入值的正则表达式-->
+        <attr name="cet_edit_value_verify_regex" format="string" />
         <!--最大输入长度-->
         <attr name="cet_edit_value_max_length" format="integer" />
     </declare-styleable>
