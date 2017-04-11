@@ -115,6 +115,7 @@ public class CorneredEditText extends AppCompatEditText {
         }
 
         initMaxLength();
+        super.addTextChangedListener(defaultTextWatcher);
     }
 
     public void setActiveBorderColor(int color) {
@@ -153,19 +154,10 @@ public class CorneredEditText extends AppCompatEditText {
     @Override
     public void addTextChangedListener(TextWatcher watcher) {
         __textWatcher = watcher;
-        super.addTextChangedListener(defaultTextWatcher);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if (max_length > 0) {
-            String text = getText().toString();
-            int len = text.length();
-            if (len > max_length) {
-                setText(text.substring(0, max_length));
-            }
-        }
-        extractValue();
         super.onDraw(canvas);
         if (display_counter) {
             drawCounter(canvas);
@@ -217,19 +209,18 @@ public class CorneredEditText extends AppCompatEditText {
 
         @Override
         public void afterTextChanged(Editable s) {
-            int len = s.toString().length();
+            // 过滤输入内容
+            extractValue(s);
             if (null != __textWatcher) {
                 __textWatcher.afterTextChanged(s);
             }
-            if (len <= 0) return;
-            extractValue();
         }
     };
 
     /**
      * 过滤掉正则限制之外的内容
      */
-    private void extractValue() {
+    private void extractValue(Editable s) {
         String text = getText().toString();
         if (!isEmpty(text)) {
             String got = gotExtractedValue(text);
@@ -272,7 +263,7 @@ public class CorneredEditText extends AppCompatEditText {
     }
 
     private boolean isEmpty(String string) {
-        return TextUtils.isEmpty(string) || string.equals("null");
+        return TextUtils.isEmpty(string);
     }
 
     // ********************
@@ -291,7 +282,6 @@ public class CorneredEditText extends AppCompatEditText {
      * 初始化输入长度限制
      */
     private void initMaxLength() {
-        display_counter = max_length > 0;
         if (max_length > 0) {
             setFilters(new InputFilter[]{new InputFilter.LengthFilter(max_length)});
         } else {
@@ -306,7 +296,7 @@ public class CorneredEditText extends AppCompatEditText {
      */
     public void setValueExtractRegex(String regex) {
         value_extract_regex = regex;
-        extractValue();
+        extractValue(getText());
     }
 
     private static class Default {
