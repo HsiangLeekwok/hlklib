@@ -19,7 +19,7 @@
             android:id="@+id/hlklib_clear_edit_text_eye"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/hlklib_clear_edit_text_default_padding"
+            android:layout_marginRight="@dimen/hlklib_clear_edit_text_default_padding"
             android:visibility="gone" />
 
         <com.hlk.hlklib.lib.view.CustomTextView
