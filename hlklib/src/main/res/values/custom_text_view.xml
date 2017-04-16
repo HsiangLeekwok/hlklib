@@ -15,6 +15,9 @@
         <attr name="ctv_auto_resize" format="boolean" />
         <!--圆形背景色-->
         <attr name="ctv_oval_background_color" format="color" />
+        <attr name="ctv_normal_color" format="color" />
+        <attr name="ctv_active_color" format="color" />
+        <attr name="ctv_disabled_color" format="color" />
     </declare-styleable>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.hlk.hlklib.lib.view;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -39,7 +40,7 @@ public class CustomTextView extends AppCompatTextView {
      * 默认字体源
      */
     private int sourceType = TYPE_ICON_FONT;
-    private int backgroundColor;
+    private int backgroundColor, normalColor, activeColor, disabledColor;
     /**
      * 是否自动计算宽高
      */
@@ -67,6 +68,9 @@ public class CustomTextView extends AppCompatTextView {
             sourceType = array.getInt(R.styleable.CustomTextView_ctv_source, TYPE_ICON_FONT);
             autoResize = array.getBoolean(R.styleable.CustomTextView_ctv_auto_resize, false);
             backgroundColor = array.getColor(R.styleable.CustomTextView_ctv_oval_background_color, Color.TRANSPARENT);
+            normalColor = array.getColor(R.styleable.CustomTextView_ctv_normal_color, getCurrentTextColor());
+            activeColor = array.getColor(R.styleable.CustomTextView_ctv_active_color, getCurrentTextColor());
+            disabledColor = array.getColor(R.styleable.CustomTextView_ctv_disabled_color, Color.parseColor("#d9d9d9"));
         } finally {
             array.recycle();
         }
@@ -83,6 +87,25 @@ public class CustomTextView extends AppCompatTextView {
         } else {
             setBackgroundDrawable(getShapeBackground());
         }
+        setTextColor(getColorStateList());
+    }
+
+    private ColorStateList getColorStateList() {
+        int[][] states = new int[][]{
+                new int[]{android.R.attr.state_focused},// focused
+                new int[]{android.R.attr.state_checked},// checked
+                new int[]{android.R.attr.state_pressed},// pressed
+                new int[]{-android.R.attr.state_enabled},// disable
+                new int[]{}// normal
+        };
+        int[] colors = new int[]{
+                activeColor,
+                activeColor,
+                activeColor,
+                disabledColor,
+                normalColor
+        };
+        return new ColorStateList(states, colors);
     }
 
     private Drawable getShapeBackground() {
