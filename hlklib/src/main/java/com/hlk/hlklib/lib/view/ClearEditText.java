@@ -3,9 +3,9 @@ package com.hlk.hlklib.lib.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
-import android.os.Build;
 import android.support.annotation.IntDef;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -42,7 +42,7 @@ public class ClearEditText extends RelativeLayout {
         initialize(context, attrs, defStyleAttr);
     }
 
-    private int normalBorder, activeBorder, editPadding, editCorner, editType, editMaxLen, editMaxLine, editMinHeight;
+    private int normalBorder, activeBorder, editPadding, editCorner, editType, editMaxLen, editMaxLine, editMinHeight, editMaxHeight;
     private String editHint, editValue, editExtractRegex, editVerifyRegex, iconEye, iconClear;
 
     private void initialize(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -62,6 +62,7 @@ public class ClearEditText extends RelativeLayout {
             editMaxLen = array.getInteger(R.styleable.ClearEditText_cet_edit_value_max_length, 0);
             editMaxLine = array.getInteger(R.styleable.ClearEditText_cet_edit_max_lines, 1);
             editMinHeight = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_minimum_height, 0);
+            editMaxHeight = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_maximum_height, 0);
         } finally {
             array.recycle();
         }
@@ -94,6 +95,9 @@ public class ClearEditText extends RelativeLayout {
         editTextView.setSingleLine(editMaxLine <= 1);
         if (editMinHeight > 0) {
             editTextView.setMinHeight(editMinHeight);
+        }
+        if (editMaxHeight > 0) {
+            editTextView.setMaxHeight(editMaxHeight);
         }
         if (!TextUtils.isEmpty(editExtractRegex)) {
             // 值过滤正则表达式
@@ -153,13 +157,13 @@ public class ClearEditText extends RelativeLayout {
      * 文字输入方式
      */
     @IntDef({TYPE_TEXT, TYPE_PHONE, TYPE_NUMBER, TYPE_PASSWORD, TYPE_VISIBLE_PASSWORD})
-    public @interface InputType {
+    public @interface KeyType {
     }
 
     /**
      * 设置文本输入方式
      */
-    public void setInputType(@InputType int inputType) {
+    public void setInputType(@KeyType int inputType) {
         editType = inputType;
         if (editType > 0) {
             editTextView.setInputType(getInputType());
@@ -170,24 +174,24 @@ public class ClearEditText extends RelativeLayout {
         int type;
         switch (editType) {
             case TYPE_PHONE:
-                type = android.text.InputType.TYPE_CLASS_PHONE;
+                type = InputType.TYPE_CLASS_PHONE;
                 break;
             case TYPE_NUMBER:
-                type = android.text.InputType.TYPE_CLASS_NUMBER;
+                type = InputType.TYPE_CLASS_NUMBER;
                 break;
             case TYPE_PASSWORD:
-                type = android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD;
+                type = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
                 break;
             case TYPE_VISIBLE_PASSWORD:
-                type = android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
+                type = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD;
                 break;
             default:
                 // 默认文字输入方式
-                type = android.text.InputType.TYPE_CLASS_TEXT;
+                type = InputType.TYPE_CLASS_TEXT;
                 break;
         }
         // 末尾增加no suggestions避免多次调用onTextChangeListener
-        return type | android.text.InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
+        return type;// | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS;
     }
 
     /**
@@ -227,6 +231,8 @@ public class ClearEditText extends RelativeLayout {
             if (null != __textWatcher) {
                 __textWatcher.onTextChanged(s, start, before, count);
             }
+            // 自定义了textWatcher需要在onTextChanged加上setInputType以便重新设置密码的掩码
+            editTextView.setInputType(getInputType());
         }
 
         @Override
@@ -253,6 +259,21 @@ public class ClearEditText extends RelativeLayout {
             return value;
         }
         return editTextView.verifyValue() ? value : "";
+    }
+
+    /**
+     * 设置显示的内容
+     */
+    public void setValue(String value) {
+        editTextView.setText(value);
+    }
+
+    public void setTextHint(String hint) {
+        editTextView.setHint(hint);
+    }
+
+    public void setTextHint(int resid) {
+        editTextView.setHint(resid);
     }
 
     /**
