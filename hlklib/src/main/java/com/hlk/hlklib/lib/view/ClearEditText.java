@@ -3,6 +3,7 @@ package com.hlk.hlklib.lib.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.os.Build;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -41,7 +42,7 @@ public class ClearEditText extends RelativeLayout {
         initialize(context, attrs, defStyleAttr);
     }
 
-    private int normalBorder, activeBorder, editPadding, editCorner, editType, editMaxLen;
+    private int normalBorder, activeBorder, editPadding, editCorner, editType, editMaxLen, editMaxLine, editMinHeight;
     private String editHint, editValue, editExtractRegex, editVerifyRegex, iconEye, iconClear;
 
     private void initialize(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -59,6 +60,8 @@ public class ClearEditText extends RelativeLayout {
             iconEye = array.getString(R.styleable.ClearEditText_cet_edit_icon_eye);
             iconClear = array.getString(R.styleable.ClearEditText_cet_edit_icon_clear);
             editMaxLen = array.getInteger(R.styleable.ClearEditText_cet_edit_value_max_length, 0);
+            editMaxLine = array.getInteger(R.styleable.ClearEditText_cet_edit_max_lines, 1);
+            editMinHeight = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_minimum_height, 0);
         } finally {
             array.recycle();
         }
@@ -88,6 +91,10 @@ public class ClearEditText extends RelativeLayout {
         editTextView.setText(editValue);
         editTextView.setInputType(getInputType());
         editTextView.setMaxLength(editMaxLen);
+        editTextView.setSingleLine(editMaxLine <= 1);
+        if (editMinHeight > 0) {
+            editTextView.setMinHeight(editMinHeight);
+        }
         if (!TextUtils.isEmpty(editExtractRegex)) {
             // 值过滤正则表达式
             editTextView.setValueExtractRegex(editExtractRegex);

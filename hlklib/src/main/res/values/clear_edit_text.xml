@@ -22,6 +22,10 @@
             <enum name="password" value="3" />
             <enum name="visiblePassword" value="4" />
         </attr>
+        <!--设置最大行数，默认1行，大于1行时自动设置可以多行，否则只能单行-->
+        <attr name="cet_edit_max_lines" format="integer" />
+        <!--设置最小height-->
+        <attr name="cet_edit_minimum_height" format="dimension" />
         <attr name="cet_edit_hint" format="string" />
         <attr name="cet_edit_text" format="string" />
         <!--过滤输入值的正则表达式-->
