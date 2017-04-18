@@ -82,6 +82,7 @@ public class CorneredButton extends AppCompatButton {
 
     private int active, normal, disabled, corner, leftt, leftb, rightt, rightb, bgtype, font_style, bg, cornerType;
     private boolean autoDisable = true;
+    private long disableDuration = EI_LONG;
 
     public CorneredButton(Context context) {
         this(context, null);
@@ -123,6 +124,7 @@ public class CorneredButton extends AppCompatButton {
         bgtype = array.getInteger(R.styleable.CorneredButton_background_type, FILL);
         cornerType = array.getInteger(R.styleable.CorneredButton_corner_type, TYPE_NORMAL);
         autoDisable = array.getBoolean(R.styleable.CorneredButton_disable_when_click, true);
+        disableDuration = array.getInt(R.styleable.CorneredButton_disable_duration, (int) EI_LONG);
     }
 
     private Drawable getDrawable(int color) {
@@ -247,13 +249,16 @@ public class CorneredButton extends AppCompatButton {
      * disable之后延时自动enable
      */
     private void delayEnableMyself() {
+        if (!autoDisable) {
+            return;
+        }
         setEnabled(false);
         postDelayed(new Runnable() {
             @Override
             public void run() {
                 setEnabled(true);
             }
-        }, (autoDisable ? EI_LONG : EI_SHORT));
+        }, disableDuration);
     }
 
     /**

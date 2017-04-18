@@ -12,6 +12,7 @@
         <attr name="right_bottom_corner_size" format="dimension" />
         <!--在点击的时候自动disable，过3s后再enable，默认为true-->
         <attr name="disable_when_click" format="boolean" />
+        <attr name="disable_duration" format="integer" />
         <attr name="font_type">
             <enum name="normal" value="0" />
             <enum name="iconfont" value="1" />
