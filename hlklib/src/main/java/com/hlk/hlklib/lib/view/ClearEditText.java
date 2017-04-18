@@ -206,8 +206,20 @@ public class ClearEditText extends RelativeLayout {
         @Override
         public void onFocusChange(View v, boolean hasFocus) {
             visibleIcons(hasFocus);
+            if (null != outerFocusChangeListener) {
+                outerFocusChangeListener.onFocusChange(ClearEditText.this, hasFocus);
+            }
         }
     };
+
+    private OnFocusChangeListener outerFocusChangeListener;
+
+    /**
+     * 添加OnFocusChangeListener
+     */
+    public void addOnFocusChangeListener(OnFocusChangeListener l) {
+        outerFocusChangeListener = l;
+    }
 
     /**
      * 用户设置的TextWatcher
