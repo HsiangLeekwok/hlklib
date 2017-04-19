@@ -214,6 +214,10 @@ public class CorneredEditText extends AppCompatEditText {
             if (null != __textWatcher) {
                 __textWatcher.afterTextChanged(s);
             }
+            if (!isEmpty(value_verify_regex) && null != valueVerifyingListener) {
+                // 如果设置了值验证正则则向用户提供验证结果
+                valueVerifyingListener.onVerifying(verifyValue());
+            }
         }
     };
 
@@ -324,5 +328,21 @@ public class CorneredEditText extends AppCompatEditText {
         public static final int CounterColor = Color.parseColor("#ff4081");
         public static final int CounterSize = Utility.ConvertDp(8);
         public static final int CounterPadding = Utility.ConvertDp(5);
+    }
+
+    private OnValueVerifyingListener valueVerifyingListener;
+
+    /**
+     * 添加输入值验证情况的回调
+     */
+    public void addOnValueVerifyPassedListener(OnValueVerifyingListener l) {
+        valueVerifyingListener = l;
+    }
+
+    /**
+     * 输入的值验证通过
+     */
+    public interface OnValueVerifyingListener {
+        void onVerifying(boolean passed);
     }
 }
