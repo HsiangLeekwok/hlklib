@@ -201,6 +201,13 @@ public class ClearEditText extends RelativeLayout {
         return editType == TYPE_PASSWORD || editType == TYPE_VISIBLE_PASSWORD;
     }
 
+    /**
+     * 添加输入值的验证回调
+     */
+    public void addOnValueVerifyingListener(CorneredEditText.OnValueVerifyingListener l) {
+        editTextView.addOnValueVerifyingListener(l);
+    }
+
     private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener() {
 
         @Override
@@ -293,6 +300,25 @@ public class ClearEditText extends RelativeLayout {
      */
     public boolean verifyValue() {
         return editTextView.verifyValue();
+    }
+
+    /**
+     * 设置值输入过滤正则
+     */
+    public void setValueExtract(String extractRegex) {
+        if (!TextUtils.isEmpty(extractRegex)) {
+            editTextView.setValueExtractRegex(extractRegex);
+        }
+    }
+
+    public void setValueVerify(String verifyRegex) {
+        if (!TextUtils.isEmpty(verifyRegex)) {
+            editTextView.setValueVerifyRegex(verifyRegex);
+        }
+    }
+
+    public void setMaxLength(int maxLength) {
+        editTextView.setMaxLength(maxLength);
     }
 
     /**

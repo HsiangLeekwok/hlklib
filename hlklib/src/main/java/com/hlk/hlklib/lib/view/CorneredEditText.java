@@ -335,7 +335,7 @@ public class CorneredEditText extends AppCompatEditText {
     /**
      * 添加输入值验证情况的回调
      */
-    public void addOnValueVerifyPassedListener(OnValueVerifyingListener l) {
+    public void addOnValueVerifyingListener(OnValueVerifyingListener l) {
         valueVerifyingListener = l;
     }
 
