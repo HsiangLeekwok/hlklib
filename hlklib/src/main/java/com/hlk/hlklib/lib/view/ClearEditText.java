@@ -92,6 +92,9 @@ public class ClearEditText extends RelativeLayout {
         editTextView.setText(editValue);
         editTextView.setInputType(getInputType());
         editTextView.setMaxLength(editMaxLen);
+        if (editMaxLine > 1) {
+            editTextView.setMaxLines(editMaxLine);
+        }
         editTextView.setSingleLine(editMaxLine <= 1);
         if (editMinHeight > 0) {
             editTextView.setMinHeight(editMinHeight);
@@ -188,6 +191,9 @@ public class ClearEditText extends RelativeLayout {
             default:
                 // 默认文字输入方式
                 type = InputType.TYPE_CLASS_TEXT;
+                if (editMaxLine > 1) {
+                    type |= InputType.TYPE_TEXT_FLAG_MULTI_LINE;
+                }
                 break;
         }
         // 末尾增加no suggestions避免多次调用onTextChangeListener

@@ -208,8 +208,10 @@ public class CorneredEditText extends AppCompatEditText {
 
         @Override
         public void afterTextChanged(Editable s) {
-            // 过滤输入内容
-            extractValue(s);
+            if (!isEmpty(value_extract_regex)) {
+                // 过滤输入内容
+                extractValue(s);
+            }
 
             if (null != __textWatcher) {
                 __textWatcher.afterTextChanged(s);
