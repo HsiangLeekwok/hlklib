@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="hlklib_voice_recorder_padding">10dp</dimen>
+    <dimen name="hlklib_voice_recorder_button_size">80dp</dimen>
+    <dimen name="hlklib_voice_recorder_button_corner_size">40dp</dimen>
+
+    <!--Voice Recorder-->
+    <string name="hlklib_voice_recorder_button_text_standby">按住说话</string>
+    <string name="hlklib_voice_recorder_button_text_too_long">超过限制</string>
+    <string name="hlklib_voice_recorder_button_text_release">松开结束</string>
+    <string name="hlklib_voice_recorder_button_text_release_cancel">松开取消</string>
+    <string name="hlklib_voice_recorder_warning_text_cancel">松开结束录音</string>
+    <string name="hlklib_voice_recorder_warning_text_too_short">录音时间太短</string>
+    <string name="hlklib_voice_recorder_warning_text_too_long">录音时间超过限制</string>
+    <string name="hlklib_voice_recorder_warning_text_wanna_cancel">取消录音</string>
+
+    <declare-styleable name="VoiceRecordButton">
+        <!--最短时间限制-->
+        <attr name="minimum_time_limit" format="integer"/>
+        <!--最长时间限制-->
+        <attr name="maximum_time_limit" format="integer"/>
+    </declare-styleable>
+
+    <style name="HLKLIB_Voice_Recorder_Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
+</resources>
