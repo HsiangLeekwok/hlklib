@@ -92,25 +92,46 @@ public class ClearEditText extends RelativeLayout {
         editTextView.setText(editValue);
         editTextView.setInputType(getInputType());
         editTextView.setMaxLength(editMaxLen);
-        if (editMaxLine > 1) {
-            editTextView.setMaxLines(editMaxLine);
-        }
-        editTextView.setSingleLine(editMaxLine <= 1);
-        if (editMinHeight > 0) {
-            editTextView.setMinHeight(editMinHeight);
-        }
-        if (editMaxHeight > 0) {
-            editTextView.setMaxHeight(editMaxHeight);
-        }
+        resetMaxLines();
+        resetMinHeight();
+        resetMaxHeight();
+
+        resetValueExtractRegex();
+        resetValueVerifyRegex();
+        clearIcon.setText(iconClear);
+        eyeIcon.setText(iconEye);
+    }
+
+    private void resetValueExtractRegex() {
         if (!TextUtils.isEmpty(editExtractRegex)) {
             // 值过滤正则表达式
             editTextView.setValueExtractRegex(editExtractRegex);
         }
+    }
+
+    private void resetValueVerifyRegex() {
         if (!TextUtils.isEmpty(editVerifyRegex)) {
             editTextView.setValueVerifyRegex(editVerifyRegex);
         }
-        clearIcon.setText(iconClear);
-        eyeIcon.setText(iconEye);
+    }
+
+    private void resetMaxLines() {
+        if (editMaxLine > 1) {
+            editTextView.setMaxLines(editMaxLine);
+        }
+        editTextView.setSingleLine(editMaxLine <= 1);
+    }
+
+    private void resetMinHeight() {
+        if (editMinHeight > 0) {
+            editTextView.setMinHeight(editMinHeight);
+        }
+    }
+
+    private void resetMaxHeight() {
+        if (editMaxHeight > 0) {
+            editTextView.setMaxHeight(editMaxHeight);
+        }
     }
 
     private OnClickListener clickListener = new OnClickListener() {
@@ -312,19 +333,42 @@ public class ClearEditText extends RelativeLayout {
      * 设置值输入过滤正则
      */
     public void setValueExtract(String extractRegex) {
-        if (!TextUtils.isEmpty(extractRegex)) {
-            editTextView.setValueExtractRegex(extractRegex);
-        }
+        editExtractRegex = extractRegex;
+        resetValueExtractRegex();
     }
 
     public void setValueVerify(String verifyRegex) {
-        if (!TextUtils.isEmpty(verifyRegex)) {
-            editTextView.setValueVerifyRegex(verifyRegex);
-        }
+        editVerifyRegex = verifyRegex;
+        resetValueVerifyRegex();
     }
 
     public void setMaxLength(int maxLength) {
         editTextView.setMaxLength(maxLength);
+    }
+
+    public void setMaxLines(int maxLines) {
+        if (editMaxLine != maxLines) {
+            editMaxLine = maxLines;
+            resetMaxLines();
+        }
+    }
+
+    public void setMinimumHeightLimit(int height) {
+        if (editMinHeight != height) {
+            editMinHeight = height;
+            resetMinHeight();
+        }
+    }
+
+    public void setMaximumHeightLimit(int height) {
+        if (editMaxHeight != height) {
+            editMaxHeight = height;
+            resetMaxHeight();
+        }
+    }
+
+    public void focusEnd() {
+        editTextView.focusEnd();
     }
 
     /**
