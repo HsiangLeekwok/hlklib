@@ -9,6 +9,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -42,7 +43,8 @@ public class ClearEditText extends RelativeLayout {
         initialize(context, attrs, defStyleAttr);
     }
 
-    private int normalBorder, activeBorder, editPadding, editCorner, editType, editMaxLen, editMaxLine, editMinHeight, editMaxHeight;
+    private int normalBorder, activeBorder, editPadding, editCorner, editType, editMaxLen, editMaxLine,
+            editMinHeight, editMaxHeight, editTextSize;
     private String editHint, editValue, editExtractRegex, editVerifyRegex, iconEye, iconClear;
 
     private void initialize(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -63,6 +65,7 @@ public class ClearEditText extends RelativeLayout {
             editMaxLine = array.getInteger(R.styleable.ClearEditText_cet_edit_max_lines, 1);
             editMinHeight = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_minimum_height, 0);
             editMaxHeight = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_maximum_height, 0);
+            editTextSize = array.getDimensionPixelSize(R.styleable.ClearEditText_cet_edit_text_size, 0);
         } finally {
             array.recycle();
         }
@@ -92,6 +95,9 @@ public class ClearEditText extends RelativeLayout {
         editTextView.setText(editValue);
         editTextView.setInputType(getInputType());
         editTextView.setMaxLength(editMaxLen);
+        if (editTextSize > 0) {
+            editTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, editTextSize);
+        }
         resetMaxLines();
         resetMinHeight();
         resetMaxHeight();

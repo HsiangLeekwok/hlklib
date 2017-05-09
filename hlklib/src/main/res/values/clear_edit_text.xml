@@ -30,6 +30,7 @@
         <attr name="cet_edit_maximum_height" format="dimension" />
         <attr name="cet_edit_hint" format="string" />
         <attr name="cet_edit_text" format="string" />
+        <attr name="cet_edit_text_size" format="dimension" />
         <!--过滤输入值的正则表达式-->
         <attr name="cet_edit_value_extract_regex" format="string" />
         <!--验证输入值的正则表达式-->
