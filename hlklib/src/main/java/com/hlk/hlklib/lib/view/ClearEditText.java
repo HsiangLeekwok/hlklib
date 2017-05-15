@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.hlk.hlklib.R;
+import com.hlk.hlklib.etc.Utility;
 
 /**
  * <b>功能描述：</b>提供可清除输入文字的EditText<br />
@@ -87,7 +88,7 @@ public class ClearEditText extends RelativeLayout {
 
         editTextView.addTextChangedListener(defaultTextWatcher);
         editTextView.setOnFocusChangeListener(onFocusChangeListener);
-        editTextView.setPadding(editPadding, editPadding, editPadding, editPadding);
+        editTextView.setPadding(editPadding, editPadding, editPadding + (TextUtils.isEmpty(iconClear) ? 0 : Utility.ConvertDp(20)), editPadding);
         editTextView.setNormalBorderColor(normalBorder);
         editTextView.setActiveBorderColor(activeBorder);
         editTextView.setCornerSize(editCorner);
