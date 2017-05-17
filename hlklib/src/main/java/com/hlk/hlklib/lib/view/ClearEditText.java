@@ -290,9 +290,13 @@ public class ClearEditText extends RelativeLayout {
 
         @Override
         public void afterTextChanged(Editable s) {
-            visibleIcons(true);
+            visibleIcons(editTextView.hasFocus());
             if (null != __textWatcher) {
                 __textWatcher.afterTextChanged(s);
+            }
+            if (editTextView.hasFocus()) {
+                // 如果具有焦点则光标挪到最后
+                focusEnd();
             }
         }
     };
