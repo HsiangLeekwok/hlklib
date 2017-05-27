@@ -10,8 +10,10 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.hlk.hlklib.R;
 import com.hlk.hlklib.etc.Utility;
@@ -44,9 +46,11 @@ public class ClearEditText extends RelativeLayout {
         initialize(context, attrs, defStyleAttr);
     }
 
-    private int normalBorder, activeBorder, editPadding, editCorner, editType, editMaxLen, editMaxLine,
-            editMinHeight, editMaxHeight, editTextSize;
-    private String editHint, editValue, editExtractRegex, editVerifyRegex, iconEye, iconClear;
+    private int normalBorder, activeBorder, editPadding, editPaddingLeft, editPaddingTop,
+            editPaddingRight, editPaddingBottom, editGravity, editCorner, editType, editMaxLen, editMaxLine,
+            editMinHeight, editMaxHeight, editTextSize, counterTextSize, counterTextColor;
+    private String editHint, editValue, editExtractRegex, editVerifyRegex, iconEye, iconClear, counterFmt;
+    private boolean allowCountInput = false;
 
     private void initialize(Context context, AttributeSet attrs, int defStyleAttr) {
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.ClearEditText, defStyleAttr, 0);
@@ -54,6 +58,18 @@ public class ClearEditText extends RelativeLayout {
             normalBorder = array.getColor(R.styleable.ClearEditText_cet_edit_normal_border, Color.WHITE);
             activeBorder = array.getColor(R.styleable.ClearEditText_cet_edit_active_border, Color.WHITE);
             editPadding = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_padding, 0);
+            if (editPadding > 0) {
+                editPaddingLeft = editPadding;
+                editPaddingTop = editPadding;
+                editPaddingRight = editPadding;
+                editPaddingBottom = editPadding;
+            } else {
+                editPaddingLeft = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_padding_left, 0);
+                editPaddingTop = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_padding_top, 0);
+                editPaddingRight = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_padding_right, 0);
+                editPaddingBottom = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_padding_bottom, 0);
+            }
+            editGravity = array.getInteger(R.styleable.ClearEditText_cet_edit_gravity, 0);
             editCorner = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_corner_size, 0);
             editType = array.getInt(R.styleable.ClearEditText_cet_edit_input_type, TYPE_TEXT);
             editHint = array.getString(R.styleable.ClearEditText_cet_edit_hint);
@@ -67,15 +83,34 @@ public class ClearEditText extends RelativeLayout {
             editMinHeight = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_minimum_height, 0);
             editMaxHeight = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_maximum_height, 0);
             editTextSize = array.getDimensionPixelSize(R.styleable.ClearEditText_cet_edit_text_size, 0);
+            allowCountInput = array.getBoolean(R.styleable.ClearEditText_cet_edit_count_input, false);
+            counterTextSize = array.getDimensionPixelSize(R.styleable.ClearEditText_cet_edit_count_input_text_size, 0);
+            counterTextColor = array.getColor(R.styleable.ClearEditText_cet_edit_count_input_text_color, getAccentColor(context));
+            counterFmt = array.getString(R.styleable.ClearEditText_cet_edit_count_text_format);
+            if (TextUtils.isEmpty(counterFmt)) {
+                counterFmt = "%d/%d";
+            }
         } finally {
             array.recycle();
         }
         initializeView();
     }
 
+    private int getAccentColor(Context context) {
+        TypedValue typedValue = new TypedValue();
+
+        TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[]{R.attr.colorAccent});
+        int color = a.getColor(0, 0);
+
+        a.recycle();
+
+        return color;
+    }
+
     private CorneredEditText editTextView;
     private CustomTextView eyeIcon;
     private CustomTextView clearIcon;
+    private TextView inputTextCounter;
 
     private void initializeView() {
         View view = inflate(getContext(), R.layout.hlklib_clear_edit_text, this);
@@ -83,8 +118,15 @@ public class ClearEditText extends RelativeLayout {
         editTextView = (CorneredEditText) view.findViewById(R.id.hlklib_clear_edit_text_text);
         eyeIcon = (CustomTextView) view.findViewById(R.id.hlklib_clear_edit_text_eye);
         clearIcon = (CustomTextView) view.findViewById(R.id.hlklib_clear_edit_text_clear);
+        inputTextCounter = (TextView) view.findViewById(R.id.hlklib_clear_edit_text_counter);
         eyeIcon.setOnClickListener(clickListener);
         clearIcon.setOnClickListener(clickListener);
+
+        if (counterTextSize > 0) {
+            inputTextCounter.setTextSize(TypedValue.COMPLEX_UNIT_PX, counterTextSize);
+        }
+        inputTextCounter.setTextColor(counterTextColor);
+        inputTextCounter.setVisibility(allowCountInput ? VISIBLE : GONE);
 
         editTextView.addTextChangedListener(defaultTextWatcher);
         editTextView.setOnFocusChangeListener(onFocusChangeListener);
@@ -96,6 +138,8 @@ public class ClearEditText extends RelativeLayout {
         editTextView.setText(editValue);
         editTextView.setInputType(getInputType());
         editTextView.setMaxLength(editMaxLen);
+        editTextView.setPadding(editPaddingLeft, editPaddingTop, editPaddingRight, editPaddingBottom);
+        editTextView.setGravity(gravity());
         if (editTextSize > 0) {
             editTextView.setTextSize(TypedValue.COMPLEX_UNIT_PX, editTextSize);
         }
@@ -107,6 +151,35 @@ public class ClearEditText extends RelativeLayout {
         resetValueVerifyRegex();
         clearIcon.setText(iconClear);
         eyeIcon.setText(iconEye);
+    }
+
+    private int gravity() {
+        switch (editGravity) {
+            case 1:
+                return Gravity.TOP;
+            case 2:
+                return Gravity.RIGHT;
+            case 3:
+                return Gravity.BOTTOM;
+            case 4:
+                return Gravity.CENTER_VERTICAL;
+            case 5:
+                return Gravity.FILL_VERTICAL;
+            case 6:
+                return Gravity.CENTER_HORIZONTAL;
+            case 7:
+                return Gravity.FILL_HORIZONTAL;
+            case 8:
+                return Gravity.CENTER;
+            case 9:
+                return Gravity.FILL;
+            case 10:
+                return Gravity.START;
+            case 11:
+                return Gravity.END;
+            default:
+                return Gravity.LEFT;
+        }
     }
 
     private void resetValueExtractRegex() {
@@ -294,12 +367,13 @@ public class ClearEditText extends RelativeLayout {
             if (null != __textWatcher) {
                 __textWatcher.afterTextChanged(s);
             }
-            if (editTextView.hasFocus()) {
-                // 如果具有焦点则光标挪到最后
-                focusEnd();
-            }
+            displayCounter(null == s ? 0 : s.length());
         }
     };
+
+    private void displayCounter(int size) {
+        inputTextCounter.setText(String.format(counterFmt, size, editMaxLen));
+    }
 
     private void visibleIcons(boolean visible) {
         int len = visible ? editTextView.getText().toString().length() : 0;
@@ -323,6 +397,7 @@ public class ClearEditText extends RelativeLayout {
      */
     public void setValue(String value) {
         editTextView.setText(value);
+        visibleIcons(editTextView.hasFocus());
     }
 
     public void setTextHint(String hint) {

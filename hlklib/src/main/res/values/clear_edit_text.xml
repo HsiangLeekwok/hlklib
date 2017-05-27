@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="hlklib_clear_edit_text_default_padding">10dp</dimen>
+    <dimen name="hlklib_clear_edit_text_margin">2dp</dimen>
     <declare-styleable name="ClearEditText">
         <!--编辑框边框颜色-->
         <attr name="cet_edit_normal_border" format="color|reference" />
@@ -8,6 +9,24 @@
         <attr name="cet_edit_active_border" format="color|reference" />
         <!--编辑框内容padding-->
         <attr name="cet_edit_padding" format="dimension|reference" />
+        <attr name="cet_edit_padding_left" format="dimension" />
+        <attr name="cet_edit_padding_top" format="dimension" />
+        <attr name="cet_edit_padding_right" format="dimension" />
+        <attr name="cet_edit_padding_bottom" format="dimension" />
+        <attr name="cet_edit_gravity">
+            <enum name="left" value="0" />
+            <enum name="top" value="1" />
+            <enum name="right" value="2" />
+            <enum name="bottom" value="3" />
+            <enum name="center_vertical" value="4" />
+            <enum name="fill_vertical" value="5" />
+            <enum name="center_horizontal" value="6" />
+            <enum name="fill_horizontal" value="7" />
+            <enum name="center" value="8" />
+            <enum name="fill" value="9" />
+            <enum name="start" value="10" />
+            <enum name="end" value="11" />
+        </attr>
         <!--编辑框边角大小-->
         <attr name="cet_edit_corner_size" format="dimension" />
         <!--显示密码明文的眼睛图标-->
@@ -37,5 +56,13 @@
         <attr name="cet_edit_value_verify_regex" format="string" />
         <!--最大输入长度-->
         <attr name="cet_edit_value_max_length" format="integer" />
+        <!--设置是否统计输入字符数-->
+        <attr name="cet_edit_count_input" format="boolean" />
+        <!--设置统计字符个数的格式化文本-->
+        <attr name="cet_edit_count_text_format" format="string" />
+        <!--设置字数统计文字的大小-->
+        <attr name="cet_edit_count_input_text_size" format="dimension" />
+        <!--设置字数统计文字的颜色-->
+        <attr name="cet_edit_count_input_text_color" format="color" />
     </declare-styleable>
 </resources>
