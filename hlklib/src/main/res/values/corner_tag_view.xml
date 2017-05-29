@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CornerTagView">
+        <attr name="ctvCornerSide">
+            <enum name="leftTop" value="0" />
+            <enum name="rightTop" value="1" />
+            <enum name="rightBottom" value="2" />
+            <enum name="leftBottom" value="3" />
+        </attr>
+        <attr name="ctvCornerSize" format="dimension" />
+        <attr name="ctvWidth" format="dimension" />
+        <attr name="ctvHeight" format="dimension" />
+        <attr name="ctvBackground" format="color" />
+    </declare-styleable>
+</resources>
