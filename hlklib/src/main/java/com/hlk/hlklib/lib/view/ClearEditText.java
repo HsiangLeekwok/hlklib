@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -111,6 +112,7 @@ public class ClearEditText extends RelativeLayout {
     private CustomTextView eyeIcon;
     private CustomTextView clearIcon;
     private TextView inputTextCounter;
+    private boolean isInputPassword = false;
 
     private void initializeView() {
         View view = inflate(getContext(), R.layout.hlklib_clear_edit_text, this);
@@ -128,6 +130,8 @@ public class ClearEditText extends RelativeLayout {
         inputTextCounter.setTextColor(counterTextColor);
         inputTextCounter.setVisibility(allowCountInput ? VISIBLE : GONE);
 
+        editTextView.setInputType(getInputType());
+        editTextView.setInputTypePassword(isInputPassword);
         editTextView.addTextChangedListener(defaultTextWatcher);
         editTextView.setOnFocusChangeListener(onFocusChangeListener);
         editTextView.setPadding(editPadding, editPadding, editPadding + (TextUtils.isEmpty(iconClear) ? 0 : Utility.ConvertDp(20)), editPadding);
@@ -136,7 +140,6 @@ public class ClearEditText extends RelativeLayout {
         editTextView.setCornerSize(editCorner);
         editTextView.setHint(editHint);
         editTextView.setText(editValue);
-        editTextView.setInputType(getInputType());
         editTextView.setMaxLength(editMaxLen);
         editTextView.setPadding(editPaddingLeft, editPaddingTop, editPaddingRight, editPaddingBottom);
         editTextView.setGravity(gravity());
@@ -276,6 +279,7 @@ public class ClearEditText extends RelativeLayout {
 
     private int getInputType() {
         int type;
+        isInputPassword = false;
         switch (editType) {
             case TYPE_PHONE:
                 type = InputType.TYPE_CLASS_PHONE;
@@ -284,6 +288,7 @@ public class ClearEditText extends RelativeLayout {
                 type = InputType.TYPE_CLASS_NUMBER;
                 break;
             case TYPE_PASSWORD:
+                isInputPassword = true;
                 type = InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD;
                 break;
             case TYPE_VISIBLE_PASSWORD:
@@ -336,37 +341,23 @@ public class ClearEditText extends RelativeLayout {
     }
 
     /**
-     * 用户设置的TextWatcher
-     */
-    private TextWatcher __textWatcher;
-
-    /**
      * 默认的TextWatcher
      */
     private TextWatcher defaultTextWatcher = new TextWatcher() {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (null != __textWatcher) {
-                __textWatcher.beforeTextChanged(s, start, count, after);
-            }
+
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (null != __textWatcher) {
-                __textWatcher.onTextChanged(s, start, before, count);
-            }
-            // 自定义了textWatcher需要在onTextChanged加上setInputType以便重新设置密码的掩码
-            editTextView.setInputType(getInputType());
+
         }
 
         @Override
         public void afterTextChanged(Editable s) {
             visibleIcons(editTextView.hasFocus());
-            if (null != __textWatcher) {
-                __textWatcher.afterTextChanged(s);
-            }
             displayCounter(null == s ? 0 : s.length());
         }
     };
@@ -461,6 +452,6 @@ public class ClearEditText extends RelativeLayout {
      * 添加输入控制
      */
     public void addTextChangedListener(TextWatcher watcher) {
-        __textWatcher = watcher;
+        editTextView.addTextChangedListener(watcher);
     }
 }

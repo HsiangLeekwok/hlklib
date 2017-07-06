@@ -12,6 +12,7 @@ import android.os.Build;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -114,7 +115,6 @@ public class CorneredEditText extends AppCompatEditText {
         }
 
         initMaxLength();
-        super.addTextChangedListener(defaultTextWatcher);
     }
 
     public void setActiveBorderColor(int color) {
@@ -177,14 +177,13 @@ public class CorneredEditText extends AppCompatEditText {
         canvas.drawText(text, positionX, positionY, paint);
     }
 
-    /**
-     * 用户设置的TextWatcher
-     */
-    private TextWatcher __textWatcher;
+    private boolean isInputTypePassword = false;
 
-    @Override
-    public void addTextChangedListener(TextWatcher watcher) {
-        __textWatcher = watcher;
+    public void setInputTypePassword(boolean hidden) {
+        isInputTypePassword = hidden;
+        if (!isInputTypePassword) {
+            addTextChangedListener(defaultTextWatcher);
+        }
     }
 
     /**
@@ -194,31 +193,27 @@ public class CorneredEditText extends AppCompatEditText {
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            if (null != __textWatcher) {
-                __textWatcher.beforeTextChanged(s, start, count, after);
-            }
+
         }
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (null != __textWatcher) {
-                __textWatcher.onTextChanged(s, start, before, count);
-            }
+
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-            if (!isEmpty(value_extract_regex)) {
-                // 过滤输入内容
-                extractValue(s);
-            }
+            // 不是密码输入状态时，用正则验证输入内容
+            if (!isInputTypePassword) {
+                if (!isEmpty(value_extract_regex)) {
+                    // 过滤输入内容
+                    extractValue(s);
+                }
 
-            if (null != __textWatcher) {
-                __textWatcher.afterTextChanged(s);
-            }
-            if (!isEmpty(value_verify_regex) && null != valueVerifyingListener) {
-                // 如果设置了值验证正则则向用户提供验证结果
-                valueVerifyingListener.onVerifying(verifyValue());
+                if (!isEmpty(value_verify_regex) && null != valueVerifyingListener) {
+                    // 如果设置了值验证正则则向用户提供验证结果
+                    valueVerifyingListener.onVerifying(verifyValue());
+                }
             }
         }
     };
@@ -320,16 +315,24 @@ public class CorneredEditText extends AppCompatEditText {
         value_verify_regex = regex;
     }
 
+    /**
+     * 根据指定的正则验证用户输入的值
+     */
+    public String getValue() {
+        String value = getText().toString();
+        return isEmpty(value_verify_regex) ? value : (verifyValue() ? value : "");
+    }
+
     private static class Default {
-        public static final int ACT_COLOR = Color.parseColor("#FF8909");
-        public static final int DFT_COLOR = Color.parseColor("#2cc3bb");
-        public static final int DSB_COLOR = Color.parseColor("#e7e7e7");
-        public static final int CORNER = Utility.ConvertDp(5);
-        public static final int BORDER = Utility.ConvertDp(1);
-        public static final String CounterFormat = "%d/%d";
-        public static final int CounterColor = Color.parseColor("#ff4081");
-        public static final int CounterSize = Utility.ConvertDp(8);
-        public static final int CounterPadding = Utility.ConvertDp(5);
+        static final int ACT_COLOR = Color.parseColor("#FF8909");
+        static final int DFT_COLOR = Color.parseColor("#2cc3bb");
+        static final int DSB_COLOR = Color.parseColor("#e7e7e7");
+        static final int CORNER = Utility.ConvertDp(5);
+        static final int BORDER = Utility.ConvertDp(1);
+        static final String CounterFormat = "%d/%d";
+        static final int CounterColor = Color.parseColor("#ff4081");
+        static final int CounterSize = Utility.ConvertDp(8);
+        static final int CounterPadding = Utility.ConvertDp(5);
     }
 
     private OnValueVerifyingListener valueVerifyingListener;
