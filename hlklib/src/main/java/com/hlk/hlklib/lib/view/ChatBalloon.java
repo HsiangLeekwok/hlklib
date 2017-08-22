@@ -60,8 +60,8 @@ public class ChatBalloon extends LinearLayout {
      */
     private void getAttributes(TypedArray array) {
         Resources res = getContext().getResources();
-        cornerSize = array.getDimensionPixelSize(R.styleable.ChatBalloon_cb_corner_size, 0);
-        if (cornerSize > 0) {
+        cornerSize = array.getDimensionPixelSize(R.styleable.ChatBalloon_cb_corner_size, -1);
+        if (cornerSize >= 0) {
             cornerSizeLeftBottom = cornerSize;
             cornerSizeLeftTop = cornerSize;
             cornerSizeRightBottom = cornerSize;
@@ -75,7 +75,7 @@ public class ChatBalloon extends LinearLayout {
             cornerSizeRightTop = array.getDimensionPixelSize(R.styleable.ChatBalloon_cb_corner_size_right_top, size);
         }
         arrowWidth = array.getDimensionPixelSize(R.styleable.ChatBalloon_cb_arrow_width, res.getDimensionPixelOffset(R.dimen.hlklib_chat_balloon_arrow_width));
-        arrowHeight = array.getDimensionPixelSize(R.styleable.ChatBalloon_cb_arrow_width, res.getDimensionPixelOffset(R.dimen.hlklib_chat_balloon_arrow_height));
+        arrowHeight = array.getDimensionPixelSize(R.styleable.ChatBalloon_cb_arrow_height, res.getDimensionPixelOffset(R.dimen.hlklib_chat_balloon_arrow_height));
         // 箭头默认在右侧上方
         arrowSide = array.getInteger(R.styleable.ChatBalloon_cb_arrow_side, RIGHT_TOP);
         arrowMargin = array.getDimensionPixelOffset(R.styleable.ChatBalloon_cb_arrow_margin, res.getDimensionPixelOffset(R.dimen.hlklib_chat_balloon_arrow_margin));
@@ -127,22 +127,22 @@ public class ChatBalloon extends LinearLayout {
             case RIGHT_BOTTOM:
             case RIGHT_MIDDLE:
             case RIGHT_TOP:
-                padding[2] += arrowWidth;
+                padding[2] += arrowHeight;
                 break;
             case LEFT_BOTTOM:
             case LEFT_MIDDLE:
             case LEFT_TOP:
-                padding[0] += arrowWidth;
+                padding[0] += arrowHeight;
                 break;
-            case TOP_CENTER:
+            case TOP_MIDDLE:
             case TOP_LEFT:
             case TOP_RIGHT:
-                padding[1] += arrowWidth;
+                padding[1] += arrowHeight;
                 break;
             case BOTTOM_CENTER:
             case BOTTOM_LEFT:
             case BOTTOM_RIGHT:
-                padding[3] += arrowWidth;
+                padding[3] += arrowHeight;
                 break;
         }
         setPadding(padding[0], padding[1], padding[2], padding[3]);
@@ -151,41 +151,98 @@ public class ChatBalloon extends LinearLayout {
     private Path gotPath() {
         int width = getMeasuredWidth(), height = getMeasuredHeight();
         switch (arrowSide) {
-//            case TOP_LEFT:
-//                return gotTopLeftArrowPath();
-//            case TOP_CENTER:
-//                return null;
-//            case TOP_RIGHT:
-//                return null;
+            case TOP_LEFT:
+            case TOP_MIDDLE:
+            case TOP_RIGHT:
+                // 顶部箭头
+                return gotTopArrowPath(width, height);
             case RIGHT_TOP:
             case RIGHT_MIDDLE:
             case RIGHT_BOTTOM:
-                return gotRightTopArrowPath(width, height);
-//            case RIGHT_MIDDLE:
-//                return null;
-//            case RIGHT_BOTTOM:
-//                return null;
-//            case BOTTOM_RIGHT:
-//                return null;
-//            case BOTTOM_CENTER:
-//                return null;
-//            case BOTTOM_LEFT:
-//                return null;
-//            case LEFT_BOTTOM:
-//                return null;
-//            case LEFT_MIDDLE:
-//                return null;
+                return gotRightArrowPath(width, height);
+            case BOTTOM_RIGHT:
+            case BOTTOM_CENTER:
+            case BOTTOM_LEFT:
+                return gotBottomArrowPath(width, height);
             case LEFT_TOP:
             case LEFT_MIDDLE:
             case LEFT_BOTTOM:
-                return gotLeftTopArrowPath(width, height);
+                return gotLeftArrowPath(width, height);
             default:
                 return gotNoneArrowPath(width, height);
         }
     }
 
-    // 箭头在右侧上边
-    private Path gotRightTopArrowPath(int width, int height) {
+    // 箭头在View的顶部
+    private Path gotTopArrowPath(int width, int height) {
+        Path path = new Path();
+        RectF rectF;
+
+        int diameter = cornerSizeLeftTop * 2;
+        // 左上角
+        if (cornerSizeLeftTop > 0) {
+            path.moveTo(0, arrowHeight + cornerSizeLeftTop);
+            rectF = new RectF(0, arrowHeight, diameter, diameter);
+            path.arcTo(rectF, 180, 90);
+        } else {
+            path.moveTo(0, arrowHeight);
+        }
+        switch (arrowSide) {
+            case TOP_LEFT:
+                // 上左位
+                path.lineTo(arrowMargin, arrowHeight);
+                path.lineTo(arrowMargin + arrowWidth / 2, 0);
+                path.lineTo(arrowMargin + arrowWidth, arrowHeight);
+                break;
+            case TOP_MIDDLE:
+                // 上中位
+                path.lineTo((width - arrowWidth) / 2, arrowHeight);
+                path.lineTo(width / 2, 0);
+                path.lineTo((width - arrowWidth) / 2 + arrowWidth, arrowHeight);
+                break;
+            case TOP_RIGHT:
+                // 上右位
+                path.lineTo(width - arrowMargin - arrowWidth, arrowHeight);
+                path.lineTo(width - arrowMargin - arrowWidth / 2, 0);
+                path.lineTo(width - arrowMargin, arrowHeight);
+                break;
+        }
+        // 右上角
+        diameter = cornerSizeRightTop * 2;
+        if (cornerSizeRightTop > 0) {
+            path.lineTo(width - cornerSizeRightTop, arrowHeight);
+            rectF = new RectF(width - diameter, 0, width, diameter);
+            path.arcTo(rectF, -90, 90);
+        } else {
+            path.lineTo(width, arrowHeight);
+        }
+        // 右下角
+        diameter = cornerSizeRightBottom * 2;
+        if (cornerSizeRightBottom > 0) {
+            // 右下角圆角起点
+            path.lineTo(width, height - cornerSizeRightBottom);
+            rectF = new RectF(width - diameter, height - diameter, width, height);
+            path.arcTo(rectF, 0, 90);
+        } else {
+            path.lineTo(width, height);
+        }
+        // 左下角
+        diameter = cornerSizeLeftBottom * 2;
+        if (cornerSizeLeftBottom > 0) {
+            // 左下角圆角起点
+            path.lineTo(cornerSizeLeftBottom, height);
+            rectF = new RectF(0, height - diameter, diameter, height);
+            path.arcTo(rectF, 90, 90);
+        } else {
+            path.lineTo(0, height);
+        }
+        // path 结束
+        path.close();
+        return path;
+    }
+
+    // 箭头在右侧
+    private Path gotRightArrowPath(int width, int height) {
         Path path = new Path();
         RectF rectF;
 
@@ -204,34 +261,34 @@ public class ChatBalloon extends LinearLayout {
         diameter = cornerSizeRightTop * 2;
         if (cornerSizeRightTop > 0) {
             // 右上角圆角起点
-            path.lineTo(width - cornerSizeRightTop - arrowWidth, 0);
-            rectF = new RectF(width - diameter - arrowWidth, 0, width - arrowWidth, diameter);
+            path.lineTo(width - cornerSizeRightTop - arrowHeight, 0);
+            rectF = new RectF(width - diameter - arrowHeight, 0, width - arrowHeight, diameter);
             path.arcTo(rectF, -90, 90);
         } else {
-            path.lineTo(width - arrowWidth, 0);
+            path.lineTo(width - arrowHeight, 0);
         }
 
         switch (arrowSide) {
             case RIGHT_TOP:
                 // 箭头起点
-                path.lineTo(width - arrowWidth, arrowMargin);
+                path.lineTo(width - arrowHeight, arrowMargin);
                 // 箭头顶点
-                path.lineTo(width, arrowMargin + arrowHeight / 2);
+                path.lineTo(width, arrowMargin + arrowWidth / 2);
                 // 箭头结束点
-                path.lineTo(width - arrowWidth, arrowMargin + arrowHeight);
+                path.lineTo(width - arrowHeight, arrowMargin + arrowWidth);
                 break;
             case RIGHT_MIDDLE:
-                path.lineTo(width - arrowWidth, height / 2 - arrowHeight / 2);
+                path.lineTo(width - arrowHeight, height / 2 - arrowWidth / 2);
                 path.lineTo(width, height / 2);
-                path.lineTo(width - arrowWidth, height / 2 + arrowHeight / 2);
+                path.lineTo(width - arrowHeight, height / 2 + arrowWidth / 2);
                 break;
             default:
                 // 箭头起点
-                path.lineTo(width - arrowWidth, height - arrowMargin - arrowHeight);
+                path.lineTo(width - arrowHeight, height - arrowMargin - arrowWidth);
                 // 箭头顶点
-                path.lineTo(width, height - arrowMargin - arrowHeight / 2);
+                path.lineTo(width, height - arrowMargin - arrowWidth / 2);
                 // 箭头结束点
-                path.lineTo(width - arrowWidth, height - arrowMargin);
+                path.lineTo(width - arrowHeight, height - arrowMargin);
                 break;
         }
 
@@ -239,11 +296,11 @@ public class ChatBalloon extends LinearLayout {
         diameter = cornerSizeRightBottom * 2;
         if (cornerSizeRightBottom > 0) {
             // 右下角圆角起点
-            path.lineTo(width - arrowWidth, height - cornerSizeRightBottom);
-            rectF = new RectF(width - arrowWidth - diameter, height - diameter, width - arrowWidth, height);
+            path.lineTo(width - arrowHeight, height - cornerSizeRightBottom);
+            rectF = new RectF(width - arrowHeight - diameter, height - diameter, width - arrowHeight, height);
             path.arcTo(rectF, 0, 90);
         } else {
-            path.lineTo(width - arrowWidth, height);
+            path.lineTo(width - arrowHeight, height);
         }
 
         // 左下角
@@ -260,8 +317,8 @@ public class ChatBalloon extends LinearLayout {
         return path;
     }
 
-    // 箭头在左侧上边
-    private Path gotLeftTopArrowPath(int width, int height) {
+    // 箭头在底部
+    private Path gotBottomArrowPath(int width, int height) {
         Path path = new Path();
         RectF rectF;
 
@@ -269,11 +326,81 @@ public class ChatBalloon extends LinearLayout {
         int diameter = cornerSizeLeftTop * 2;
         if (cornerSizeLeftTop > 0) {
             // 左上角圆角起点
-            path.moveTo(arrowWidth, cornerSizeLeftTop);
-            rectF = new RectF(arrowWidth, 0, arrowWidth + diameter, diameter);
+            path.moveTo(0, cornerSizeLeftTop);
+            rectF = new RectF(0, 0, diameter, diameter);
             path.arcTo(rectF, 180, 90);
         } else {
-            path.moveTo(arrowWidth, 0);
+            path.moveTo(0, 0);
+        }
+        // 右上角
+        diameter = cornerSizeRightTop * 2;
+        if (cornerSizeRightTop > 0) {
+            // 右上角圆角起点
+            path.lineTo(width - cornerSizeRightTop, 0);
+            rectF = new RectF(width - diameter, 0, width, diameter);
+            path.arcTo(rectF, -90, 90);
+        } else {
+            path.lineTo(width, 0);
+        }
+
+        // 右下角
+        diameter = cornerSizeRightBottom * 2;
+        if (cornerSizeRightBottom > 0) {
+            // 右下角圆角起点
+            path.lineTo(width, height - arrowHeight - cornerSizeRightBottom);
+            rectF = new RectF(width - diameter, height - arrowHeight - diameter, width, height - arrowHeight);
+            path.arcTo(rectF, 0, 90);
+        } else {
+            path.lineTo(width, height - arrowHeight);
+        }
+
+        // 画箭头
+        switch (arrowSide) {
+            case BOTTOM_LEFT:
+                path.lineTo(arrowMargin + arrowWidth, height - arrowHeight);
+                path.lineTo(arrowMargin + arrowWidth / 2, height);
+                path.lineTo(arrowMargin, height - arrowHeight);
+                break;
+            case BOTTOM_CENTER:
+                path.lineTo(width / 2 + arrowWidth / 2, height - arrowHeight);
+                path.lineTo(width / 2, height);
+                path.lineTo(width / 2 - arrowWidth / 2, height - arrowHeight);
+                break;
+            case BOTTOM_RIGHT:
+                path.lineTo(width - arrowMargin, height - arrowHeight);
+                path.lineTo(width - arrowMargin - arrowWidth / 2, height);
+                path.lineTo(width - arrowMargin - arrowWidth, height - arrowHeight);
+                break;
+        }
+
+        // 左下角
+        diameter = cornerSizeLeftBottom * 2;
+        if (cornerSizeLeftBottom > 0) {
+            // 左下角圆角起点
+            path.lineTo(cornerSizeLeftBottom, height);
+            rectF = new RectF(0, height - arrowHeight - diameter, diameter, height - arrowHeight);
+            path.arcTo(rectF, 90, 90);
+        } else {
+            path.lineTo(0, height - arrowHeight);
+        }
+        path.close();
+        return path;
+    }
+
+    // 箭头在左侧
+    private Path gotLeftArrowPath(int width, int height) {
+        Path path = new Path();
+        RectF rectF;
+
+        // 左上角
+        int diameter = cornerSizeLeftTop * 2;
+        if (cornerSizeLeftTop > 0) {
+            // 左上角圆角起点
+            path.moveTo(arrowHeight, cornerSizeLeftTop);
+            rectF = new RectF(arrowHeight, 0, arrowHeight + diameter, diameter);
+            path.arcTo(rectF, 180, 90);
+        } else {
+            path.moveTo(arrowHeight, 0);
         }
 
         // 右上角
@@ -302,37 +429,38 @@ public class ChatBalloon extends LinearLayout {
         diameter = cornerSizeLeftBottom * 2;
         if (cornerSizeLeftBottom > 0) {
             // 左下角圆角起点
-            path.lineTo(arrowWidth + cornerSizeLeftBottom, height);
-            rectF = new RectF(arrowWidth, height - diameter, arrowWidth + diameter, height);
+            path.lineTo(arrowHeight + cornerSizeLeftBottom, height);
+            rectF = new RectF(arrowHeight, height - diameter, arrowHeight + diameter, height);
             path.arcTo(rectF, 90, 90);
         } else {
-            path.lineTo(arrowWidth, height);
+            path.lineTo(arrowHeight, height);
         }
 
         switch (arrowSide) {
             case LEFT_BOTTOM:
-                path.lineTo(arrowWidth, height - arrowMargin);
-                path.lineTo(0, height - arrowMargin - arrowHeight / 2);
-                path.lineTo(arrowWidth, height - arrowMargin - arrowHeight);
+                path.lineTo(arrowHeight, height - arrowMargin);
+                path.lineTo(0, height - arrowMargin - arrowWidth / 2);
+                path.lineTo(arrowHeight, height - arrowMargin - arrowWidth);
                 break;
             case LEFT_MIDDLE:
-                path.lineTo(arrowWidth, height / 2 + arrowHeight / 2);
+                path.lineTo(arrowHeight, height / 2 + arrowWidth / 2);
                 path.lineTo(0, height / 2);
-                path.lineTo(arrowWidth, height / 2 - arrowHeight / 2);
+                path.lineTo(arrowHeight, height / 2 - arrowWidth / 2);
                 break;
             case LEFT_TOP:
                 // 箭头起点
-                path.lineTo(arrowWidth, arrowMargin + arrowHeight);
+                path.lineTo(arrowHeight, arrowMargin + arrowWidth);
                 // 箭头顶点
-                path.lineTo(0, arrowMargin + arrowHeight / 2);
+                path.lineTo(0, arrowMargin + arrowWidth / 2);
                 // 箭头结束点
-                path.lineTo(arrowWidth, arrowMargin);
+                path.lineTo(arrowHeight, arrowMargin);
                 break;
         }
         path.close();
         return path;
     }
 
+    // 没有箭头
     private Path gotNoneArrowPath(int width, int height) {
         Path path = new Path();
         RectF rectF;
@@ -377,40 +505,6 @@ public class ChatBalloon extends LinearLayout {
         } else {
             path.lineTo(0, height);
         }
-        path.close();
-        return path;
-    }
-
-    // 上左位
-    private Path gotTopLeftArrowPath(int mWidth, int mHeight) {
-        Path path = new Path();
-        // 箭头高度 + 圆角高度
-        path.moveTo(0, arrowHeight + cornerSize);
-        int diameter = cornerSize * 2;
-        // 左上角圆角
-        RectF rectF = new RectF(0, arrowHeight, diameter, arrowHeight + diameter);
-        path.arcTo(rectF, 180, 90);
-        // 到箭头起始点
-        path.lineTo(arrowMargin, arrowHeight);
-        // 箭头顶点
-        path.lineTo(arrowMargin + arrowWidth / 2, 0);
-        // 箭头结束
-        path.lineTo(arrowMargin + arrowWidth, arrowHeight);
-
-        // 右上角半圆起始点
-        path.lineTo(mWidth - cornerSize, arrowHeight);
-        rectF = new RectF(mWidth - diameter, arrowHeight, mWidth, arrowHeight + diameter);
-        // 右上角半圆
-        path.arcTo(rectF, 270, 90);
-        // 右下角半圆起点
-        path.lineTo(mWidth, mHeight - cornerSize);
-        rectF = new RectF(mWidth - diameter, mHeight - diameter, mWidth, mHeight);
-        path.arcTo(rectF, 0, 90);
-        // 左下角圆角起点
-        path.lineTo(cornerSize, mHeight);
-        rectF = new RectF(0, mHeight - diameter, diameter, mHeight);
-        path.arcTo(rectF, 90, 90);
-        // path 结束
         path.close();
         return path;
     }
@@ -541,7 +635,7 @@ public class ChatBalloon extends LinearLayout {
     /**
      * 箭头在UI的顶部中间
      */
-    public static final int TOP_CENTER = 2;
+    public static final int TOP_MIDDLE = 2;
     /**
      * 箭头在UI的顶部右边
      */
@@ -586,7 +680,7 @@ public class ChatBalloon extends LinearLayout {
     /**
      * 箭头所在位置
      */
-    @IntDef({NONE, TOP_LEFT, TOP_CENTER, TOP_RIGHT, RIGHT_TOP, RIGHT_MIDDLE, RIGHT_BOTTOM,
+    @IntDef({NONE, TOP_LEFT, TOP_MIDDLE, TOP_RIGHT, RIGHT_TOP, RIGHT_MIDDLE, RIGHT_BOTTOM,
             BOTTOM_RIGHT, BOTTOM_CENTER, BOTTOM_LEFT, LEFT_BOTTOM, LEFT_MIDDLE, LEFT_TOP})
     @Retention(RetentionPolicy.SOURCE)
     public @interface ArrowSide {

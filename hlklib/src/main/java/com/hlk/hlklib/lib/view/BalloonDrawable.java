@@ -61,7 +61,7 @@ public class BalloonDrawable extends Drawable {
         switch (aSide) {
 //            case TOP_LEFT:
 //                return gotTopLeftArrowPath();
-//            case TOP_CENTER:
+//            case TOP_MIDDLE:
 //                return null;
 //            case TOP_RIGHT:
 //                return null;
