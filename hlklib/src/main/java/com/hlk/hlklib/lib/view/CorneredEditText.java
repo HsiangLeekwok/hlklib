@@ -16,6 +16,8 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
+import android.widget.EditText;
 
 import com.hlk.hlklib.etc.Utility;
 
@@ -148,6 +150,35 @@ public class CorneredEditText extends AppCompatEditText {
         super.setBackgroundColor(Color.TRANSPARENT);
         bg_color = color;
         init();
+    }
+
+    @Override
+    public boolean onKeyPreIme(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (onImeBackKeyListener != null) {
+                onImeBackKeyListener.onBackKey(this);
+            }
+        }
+        return super.onKeyPreIme(keyCode, event);
+    }
+
+    /**
+     * 设置在键盘打开的状态下处理 back key 的回调
+     */
+    public void setOnImeBackKeyListener(OnImeBackKeyListener l) {
+        onImeBackKeyListener = l;
+    }
+
+    private OnImeBackKeyListener onImeBackKeyListener;
+
+    /**
+     * IME状态下的back key处理接口
+     */
+    public interface OnImeBackKeyListener {
+        /**
+         * IME状态下的 back key 处理回调
+         */
+        void onBackKey(EditText editText);
     }
 
     @Override
