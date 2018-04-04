@@ -156,6 +156,12 @@ public class ClearEditText extends RelativeLayout {
         eyeIcon.setText(iconEye);
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        editTextView.setEnabled(enabled);
+        super.setEnabled(enabled);
+    }
+
     private int gravity() {
         switch (editGravity) {
             case 1:
