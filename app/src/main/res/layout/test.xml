@@ -5,10 +5,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.hlk.hlklib.lib.view.ClearEditText
+    <com.hlk.hlklib.lib.view.ChatBalloon
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cet_edit_hint="测试"
-        app:cet_edit_padding="5dp"
-        app:cet_edit_text_size="14sp" />
+        android:layout_height="100dp"
+        android:layout_margin="10dp"
+        android:minHeight="100dp"
+        app:cb_arrow_height="8dp"
+        app:cb_arrow_margin="20dp"
+        app:cb_arrow_side="bottomLeft"
+        app:cb_background_normal="#66FF0000"
+        app:cb_corner_size="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name" />
+    </com.hlk.hlklib.lib.view.ChatBalloon>
 </LinearLayout>

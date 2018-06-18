@@ -211,7 +211,7 @@ public class ChatBalloon extends LinearLayout {
         diameter = cornerSizeRightTop * 2;
         if (cornerSizeRightTop > 0) {
             path.lineTo(width - cornerSizeRightTop, arrowHeight);
-            rectF = new RectF(width - diameter, 0, width, diameter);
+            rectF = new RectF(width - diameter, arrowHeight, width, diameter);
             path.arcTo(rectF, -90, 90);
         } else {
             path.lineTo(width, arrowHeight);
@@ -377,7 +377,7 @@ public class ChatBalloon extends LinearLayout {
         diameter = cornerSizeLeftBottom * 2;
         if (cornerSizeLeftBottom > 0) {
             // 左下角圆角起点
-            path.lineTo(cornerSizeLeftBottom, height);
+            path.lineTo(cornerSizeLeftBottom, height - arrowHeight);
             rectF = new RectF(0, height - arrowHeight - diameter, diameter, height - arrowHeight);
             path.arcTo(rectF, 90, 90);
         } else {
