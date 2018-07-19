@@ -128,6 +128,11 @@ public class CorneredView extends LinearLayout {
         init();
     }
 
+    public void setActiveBackground(int color) {
+        bgActive = color;
+        init();
+    }
+
     /**
      * 设置边框大小
      */
