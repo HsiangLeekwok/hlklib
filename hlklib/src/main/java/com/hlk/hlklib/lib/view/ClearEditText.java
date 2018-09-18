@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.support.annotation.IntDef;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -47,7 +46,7 @@ public class ClearEditText extends RelativeLayout {
         initialize(context, attrs, defStyleAttr);
     }
 
-    private int normalBorder, activeBorder, editPadding, editPaddingLeft, editPaddingTop,
+    private int normalBorder, activeBorder, disabledBorder, editPadding, editPaddingLeft, editPaddingTop,
             editPaddingRight, editPaddingBottom, editGravity, editCorner, editType, editMaxLen, editMaxLine,
             editMinHeight, editMaxHeight, editTextSize, counterTextSize, counterTextColor;
     private String editHint, editValue, editExtractRegex, editVerifyRegex, iconEye, iconClear, counterFmt;
@@ -58,6 +57,7 @@ public class ClearEditText extends RelativeLayout {
         try {
             normalBorder = array.getColor(R.styleable.ClearEditText_cet_edit_normal_border, Color.WHITE);
             activeBorder = array.getColor(R.styleable.ClearEditText_cet_edit_active_border, Color.WHITE);
+            disabledBorder = array.getColor(R.styleable.ClearEditText_cet_edit_disabled_border, Color.WHITE);
             editPadding = array.getDimensionPixelOffset(R.styleable.ClearEditText_cet_edit_padding, 0);
             if (editPadding > 0) {
                 editPaddingLeft = editPadding;
@@ -117,10 +117,10 @@ public class ClearEditText extends RelativeLayout {
     private void initializeView() {
         View view = inflate(getContext(), R.layout.hlklib_clear_edit_text, this);
 
-        editTextView = (CorneredEditText) view.findViewById(R.id.hlklib_clear_edit_text_text);
-        eyeIcon = (CustomTextView) view.findViewById(R.id.hlklib_clear_edit_text_eye);
-        clearIcon = (CustomTextView) view.findViewById(R.id.hlklib_clear_edit_text_clear);
-        inputTextCounter = (TextView) view.findViewById(R.id.hlklib_clear_edit_text_counter);
+        editTextView = view.findViewById(R.id.hlklib_clear_edit_text_text);
+        eyeIcon = view.findViewById(R.id.hlklib_clear_edit_text_eye);
+        clearIcon = view.findViewById(R.id.hlklib_clear_edit_text_clear);
+        inputTextCounter = view.findViewById(R.id.hlklib_clear_edit_text_counter);
         eyeIcon.setOnClickListener(clickListener);
         clearIcon.setOnClickListener(clickListener);
 
@@ -137,6 +137,7 @@ public class ClearEditText extends RelativeLayout {
         editTextView.setPadding(editPadding, editPadding, editPadding + (TextUtils.isEmpty(iconClear) ? 0 : Utility.ConvertDp(20)), editPadding);
         editTextView.setNormalBorderColor(normalBorder);
         editTextView.setActiveBorderColor(activeBorder);
+        editTextView.setDisabledBorderColor(disabledBorder);
         editTextView.setCornerSize(editCorner);
         editTextView.setHint(editHint);
         editTextView.setText(editValue);
@@ -160,6 +161,10 @@ public class ClearEditText extends RelativeLayout {
     public void setEnabled(boolean enabled) {
         editTextView.setEnabled(enabled);
         super.setEnabled(enabled);
+    }
+
+    public void setEditable(boolean editable) {
+        editTextView.setFocusable(editable);
     }
 
     private int gravity() {

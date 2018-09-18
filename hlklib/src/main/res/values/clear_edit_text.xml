@@ -7,6 +7,8 @@
         <attr name="cet_edit_normal_border" format="color|reference" />
         <!--编辑框活动时边框颜色-->
         <attr name="cet_edit_active_border" format="color|reference" />
+        <!--编辑框禁用时边框颜色-->
+        <attr name="cet_edit_disabled_border" format="color|reference" />
         <!--编辑框内容padding-->
         <attr name="cet_edit_padding" format="dimension|reference" />
         <attr name="cet_edit_padding_left" format="dimension" />
