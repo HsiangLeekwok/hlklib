@@ -431,7 +431,8 @@ public class ClearEditText extends RelativeLayout {
     }
 
     public void setMaxLength(int maxLength) {
-        editTextView.setMaxLength(maxLength);
+        editMaxLen = maxLength;
+        editTextView.setMaxLength(editMaxLen);
     }
 
     public void setMaxLines(int maxLines) {
